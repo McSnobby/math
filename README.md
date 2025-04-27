@@ -1,5 +1,5 @@
 # math
-A free matematica alternative
+A free matematica alternative. (Better name comming soon...)
 
 ## Currently in development
 This code is only left here as reference and proof of concept.
