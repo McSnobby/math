@@ -28,6 +28,40 @@ impl Error for DivByZeroError {
 }
 
 #[derive(Debug)]
+pub struct EvalError {
+    details: String,
+}
+
+impl EvalError {
+    pub fn new(msg: &str) -> Self {
+        Self {
+            details: msg.to_string(),
+        }
+    }
+}
+
+impl fmt::Display for EvalError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self.details)
+    }
+}
+
+impl Error for EvalError {
+    fn cause(&self) -> Option<&dyn Error> {
+        Some(self)
+    }
+    fn description(&self) -> &str {
+        &self.details
+    }
+}
+
+impl From<DivByZeroError> for EvalError {
+    fn from(value: DivByZeroError) -> Self {
+        Self::new(&value.to_string())
+    }
+}
+
+#[derive(Debug)]
 pub struct ParseError {
     details: String,
 }
