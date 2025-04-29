@@ -17,8 +17,7 @@ fn main() {
         Ok(tok) => tok,
         Err(e) => panic!("{}", e),
     };
-    let mut parser = expression::Parser::new(tokens);
-    let mut expr = match parser.parse() {
+    let mut expr = match expression::parse_tokens(tokens) {
         Ok(expr) => expr,
         Err(e) => panic!("{}", e),
     };

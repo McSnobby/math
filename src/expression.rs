@@ -556,7 +556,13 @@ impl fmt::Debug for Expression {
 
 type ParseResult = Result<Expression, ParseError>;
 
-pub struct Parser {
+// Wrapper for the parser to remove the unintuative mut requirement
+pub fn parse_tokens(tokens: Vec<Token>) -> ParseResult {
+    let mut parser = Parser::new(tokens);
+    parser.parse()
+}
+
+struct Parser {
     tokens: Vec<Token>,
     pos: usize,
 }
