@@ -1,6 +1,8 @@
 mod errors;
 mod expression;
+mod parse;
 mod token;
+mod util;
 
 use std::env;
 
@@ -17,7 +19,7 @@ fn main() {
         Ok(tok) => tok,
         Err(e) => panic!("{}", e),
     };
-    let mut expr = match expression::parse_tokens(tokens) {
+    let mut expr = match parse::parse_tokens(tokens) {
         Ok(expr) => expr,
         Err(e) => panic!("{}", e),
     };
