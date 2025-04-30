@@ -2,11 +2,40 @@
 A free matematica alternative. (Better name comming soon...)
 
 ## Currently in development
-This code is only left here as reference and proof of concept.
+This code is only left here as proof of concept.
 
-Currently only supports modifying the src/main.rs file to recive the desired output. But user interface will be added later.
+Terribly optimised with excessive cloning.
 
+## Usage
+Clone it and run\n
+`cargo run <expression> <arguments>`
+
+### Expressions
+
+#### Operands
++, -, *, /, ^
+#### Constants
+- pi
+- e
+#### Functions
+- Sin
+- Cos
+- Tan
+- Ln
+- Log(base), Example `Log10(x)`
+- sqrt, Alias for ^(1/2)
+#### Variables
+All other a-z and A-Z charachters will be treated as unknown
+
+### Flags
+- --derive / -d <respects to>
+  - Example: `cargo run x^3 -d x`, Output: `3 * x^2`
+
+You can chain the flags to do multiple operations on the expression.
 ## Features
 
-- Simplifying expressions (For expressions with only numbers, this also means calculating it)
 - Symbolic derivatives
+- Simplifying expressions (For expressions with only numbers, this also means calculating it) (No flag for this yet)
+- Solving (No flag for this yet)
+- Evaluating (No flag for this yet)
+
