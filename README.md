@@ -25,7 +25,7 @@ Clone it and run\n
 - Log(base), Example `Log10(x)`
 - sqrt, Alias for ^(1/2)
 #### Variables
-All other a-z and A-Z charachters will be treated as unknown
+All other a-z and A-Z characters will be treated as unknowns
 
 ### Flags
 - --derive / -d <respects to>
