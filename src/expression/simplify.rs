@@ -16,8 +16,32 @@ impl Expression {
                 let b = b.simplify(evaluate_div)?;
 
                 match (&a, &b) {
-                    (Self::Number(0.0), e) | (e, Self::Number(0.0)) => Ok(e.clone()),
+                    (_, Self::Number(0.0)) => Ok(a),
+                    (Self::Number(0.0), _) => Ok(b),
                     (Self::Number(x), Self::Number(y)) => Ok(Self::Number(x + y)),
+                    (Self::Number(x), Self::Add(c, d)) | (Self::Add(c, d), Self::Number(x)) => {
+                        match (&**c, &**d) {
+                            (Self::Number(y), e) | (e, Self::Number(y)) => Ok(Self::Add(
+                                Box::new(Self::Number(x + y)),
+                                Box::new(e.clone()),
+                            )),
+                            _ => Ok(Expression::Add(Box::new(a), Box::new(b))),
+                        }
+                    }
+                    (Self::Mul(c, d), Self::Mul(e, f)) => match (&**c, &**d, &**e, &**f) {
+                        (Self::Number(x), g, Self::Number(y), h)
+                        | (Self::Number(x), g, h, Self::Number(y))
+                        | (g, Self::Number(x), Self::Number(y), h)
+                        | (g, Self::Number(x), h, Self::Number(y))
+                            if g == h =>
+                        {
+                            Ok(Self::Mul(
+                                Box::new(Self::Number(x + y)),
+                                Box::new(g.to_owned()),
+                            ))
+                        }
+                        _ => Ok(Expression::Add(Box::new(a), Box::new(b))),
+                    },
                     _ => Ok(Expression::Add(Box::new(a), Box::new(b))),
                 }
             }
@@ -93,9 +117,6 @@ impl Expression {
                     Ok(Self::Ln(Box::new(e.simplify(evaluate_div)?)))
                 }
             }
-            Self::Sin(e) => simplify_one_argument_function!(Self::Sin, e, evaluate_div),
-            Self::Cos(e) => simplify_one_argument_function!(Self::Cos, e, evaluate_div),
-            Self::Tan(e) => simplify_one_argument_function!(Self::Tan, e, evaluate_div),
             Self::Log(base, e) => match (base, &**e) {
                 (x, Self::Number(y)) => {
                     if x == y {
@@ -106,6 +127,9 @@ impl Expression {
                 }
                 _ => Ok(Self::Log(*base, Box::new(e.simplify(evaluate_div)?))),
             },
+            Self::Sin(e) => simplify_one_argument_function!(Self::Sin, e, evaluate_div),
+            Self::Cos(e) => simplify_one_argument_function!(Self::Cos, e, evaluate_div),
+            Self::Tan(e) => simplify_one_argument_function!(Self::Tan, e, evaluate_div),
 
             _ => Ok(self.clone()),
         }

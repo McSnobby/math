@@ -177,6 +177,7 @@ impl Parser {
     }
 }
 
+#[cfg(test)]
 mod tests {
     use super::*;
     use crate::token::tokenize;

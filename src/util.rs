@@ -15,6 +15,7 @@ pub fn gcd(a: &f64, b: &f64) -> f64 {
     result
 }
 
+#[cfg(test)]
 mod tests {
     use super::*;
 

@@ -30,6 +30,8 @@ Clone it and run\n
 All other a-z and A-Z characters will be treated as unknowns
 
 ### Flags
+- --simplify / -sp \<Evaluate division: true/false>
+  - Example: `cargo run "1/2 + 3x + 4" -sp true`, Output: `4.5 + 3x`
 - --derive / -d \<Respects to>
   - Example: `cargo run x^3 -d x`, Output: `3 * x^2`
 - --root / -R \<Respects to>
@@ -42,7 +44,10 @@ You can chain the flags to do multiple operations on the expression.
 
 - Implicit multiplication and negatives
 - Symbolic derivatives
-- Simplifying expressions (For expressions with only numbers, this also means calculating it) (No flag for this yet)
+- Simplifying expressions (For expressions with only numbers, this also means calculating it) 
 - Solving
 - Evaluating
 
+## Issues
+Currently it has a known bug when simplifying depending on the order you input the expression in<br>
+For example: 3x + 4x + 1/2 => 7x + 0.5, but 1/2 + 3x + 4x => 0.5 + 3x + 4x

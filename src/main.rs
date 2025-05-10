@@ -45,6 +45,26 @@ fn main() {
                 }
                 exit(0);
             }
+            "--simplify" | "-sp" => {
+                let evaluate_div = match args.next() {
+                    Some(s) => {
+                        if s == "true" {
+                            true
+                        } else if s == "false" {
+                            false
+                        } else {
+                            panic!("Invalid parameter, valid are true/false")
+                        }
+                    }
+                    None => panic!(
+                        "Must provide provide if it should evaluate div\n Valid parameters are: true/false "
+                    ),
+                };
+                match expr.simplify(evaluate_div) {
+                    Ok(r) => expr = r,
+                    Err(_) => panic!("Cannot divide by zero"),
+                }
+            }
 
             "--solve" | "-S" => {
                 let rhs = match args.next() {
