@@ -28,14 +28,18 @@ Clone it and run\n
 All other a-z and A-Z characters will be treated as unknowns
 
 ### Flags
-- --derive / -d <respects to>
+- --derive / -d <Respects to>
   - Example: `cargo run x^3 -d x`, Output: `3 * x^2`
+- --root / -R <Respects to>
+  - Example: `cargo run x^3 -R x`, Output: `x = 0`
+- --solve / -S <Right hand side> <Respects to>
+  - Example: `cargo run 2x -S 4 x`, Output: `x = 2`
 
 You can chain the flags to do multiple operations on the expression.
 ## Features
 
 - Symbolic derivatives
 - Simplifying expressions (For expressions with only numbers, this also means calculating it) (No flag for this yet)
-- Solving (No flag for this yet)
-- Evaluating (No flag for this yet)
+- Solving
+- Evaluating
 

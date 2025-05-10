@@ -38,15 +38,17 @@ impl Expression {
                     (_, Self::Number(1.0)) => Ok(a),
                     (Self::Number(1.0), _) => Ok(b),
                     (Self::Number(x), Self::Number(y)) => Ok(Self::Number(x * y)),
-                    (Self::Number(x), Self::Mul(y, z)) => match (&**y, &**z) {
-                        (_, Self::Number(c)) => {
-                            Ok(Self::Mul(Box::new(Self::Number(c * x)), Box::new(a)))
+                    (Self::Number(x), Self::Mul(y, z)) | (Self::Mul(y, z), Self::Number(x)) => {
+                        match (&**y, &**z) {
+                            (_, Self::Number(c)) => {
+                                Ok(Self::Mul(Box::new(Self::Number(*c * x)), y.clone()))
+                            }
+                            (Self::Number(c), _) => {
+                                Ok(Self::Mul(Box::new(Self::Number(*c * x)), z.clone()))
+                            }
+                            _ => Ok(Self::Mul(Box::new(a), Box::new(b))),
                         }
-                        (Self::Number(c), _) => {
-                            Ok(Self::Mul(Box::new(Self::Number(c * x)), Box::new(b)))
-                        }
-                        _ => Ok(Self::Mul(Box::new(a), Box::new(b))),
-                    },
+                    }
                     _ => Ok(Expression::Mul(Box::new(a), Box::new(b))),
                 }
             }

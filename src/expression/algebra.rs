@@ -20,10 +20,17 @@ impl Expression {
                 Box::new(a.derivative(respects_to)),
                 Box::new(b.derivative(respects_to)),
             ),
-            Self::Mul(a, b) => Self::Add(
-                Box::new(Self::Mul(Box::new(a.derivative(respects_to)), b.clone())),
-                Box::new(Self::Mul(a.clone(), Box::new(b.derivative(respects_to)))),
-            ),
+            Self::Mul(a, b) => match (&**a, &**b) {
+                (Self::Number(_), Self::Number(_)) => Self::Number(0.0),
+                (x, Self::Number(y)) | (Self::Number(y), x) => Self::Mul(
+                    Box::new(Self::Number(*y)),
+                    Box::new(x.derivative(respects_to)),
+                ),
+                _ => Self::Add(
+                    Box::new(Self::Mul(Box::new(a.derivative(respects_to)), b.clone())),
+                    Box::new(Self::Mul(a.clone(), Box::new(b.derivative(respects_to)))),
+                ),
+            },
             Self::Div(a, b) => match (&**a, &**b) {
                 (Self::Number(_), Self::Number(_)) => self.clone(),
                 _ => {

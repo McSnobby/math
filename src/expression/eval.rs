@@ -116,21 +116,27 @@ impl Expression {
 
     pub fn find_root(&self, respects_to: &str, guess: f64) -> Result<f64, EvalError> {
         // Newton-Raphson method
-        let derivative = self.derivative(respects_to);
+        let derivative = self.derivative(respects_to).simplify(false).unwrap();
+        println!("{:?}", derivative);
         let mut x: f64 = guess;
         let mut y: f64;
         let mut x_known = hash_map::HashMap::new();
-        x_known.insert(respects_to.to_string(), x);
+        _ = x_known.insert(respects_to.to_string(), x);
+        let mut iterations: u8 = 0;
 
         loop {
+            iterations += 1;
             y = self.eval_numeric(&x_known)?;
             x = x - y / derivative.eval_numeric(&x_known)?;
 
             if -1e-31 < y && y < 1e-31 {
                 break;
             }
+            if iterations == u8::MAX {
+                return Err(EvalError::new("Undefined point"));
+            }
 
-            x_known.insert(respects_to.to_string(), x);
+            _ = x_known.insert(respects_to.to_string(), x);
         }
 
         x_known.clear();
