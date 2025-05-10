@@ -118,11 +118,12 @@ impl Expression {
         // Newton-Raphson method
         let derivative = self.derivative(respects_to);
         let mut x: f64 = guess;
+        let mut y: f64;
         let mut x_known = hash_map::HashMap::new();
         x_known.insert(respects_to.to_string(), x);
 
         loop {
-            let y = self.eval_numeric(&x_known)?;
+            y = self.eval_numeric(&x_known)?;
             x = x - y / derivative.eval_numeric(&x_known)?;
 
             if -1e-31 < y && y < 1e-31 {
@@ -131,6 +132,8 @@ impl Expression {
 
             x_known.insert(respects_to.to_string(), x);
         }
+
+        x_known.clear();
 
         Ok(util::round_dp(x, 10))
     }
