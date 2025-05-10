@@ -6,6 +6,8 @@ This code is only left here as proof of concept.
 
 Terribly optimised with excessive cloning.
 
+Make sure you have rustup installed
+
 ## Usage
 Clone it and run\n
 `cargo run <expression> <arguments>`
@@ -22,7 +24,7 @@ Clone it and run\n
 - Cos
 - Tan
 - Ln
-- Log(base), Example `Log10(x)`
+- Log\<base>, Example: `Log10(x)`
 - sqrt, Alias for ^(1/2)
 #### Variables
 All other a-z and A-Z characters will be treated as unknowns
@@ -38,6 +40,7 @@ All other a-z and A-Z characters will be treated as unknowns
 You can chain the flags to do multiple operations on the expression.
 ## Features
 
+- Implicit multiplication and negatives
 - Symbolic derivatives
 - Simplifying expressions (For expressions with only numbers, this also means calculating it) (No flag for this yet)
 - Solving
