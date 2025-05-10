@@ -28,11 +28,11 @@ Clone it and run\n
 All other a-z and A-Z characters will be treated as unknowns
 
 ### Flags
-- --derive / -d <Respects to>
+- --derive / -d \<Respects to>
   - Example: `cargo run x^3 -d x`, Output: `3 * x^2`
-- --root / -R <Respects to>
+- --root / -R \<Respects to>
   - Example: `cargo run x^3 -R x`, Output: `x = 0`
-- --solve / -S <Right hand side> <Respects to>
+- --solve / -S \<Right hand side> \<Respects to>
   - Example: `cargo run 2x -S 4 x`, Output: `x = 2`
 
 You can chain the flags to do multiple operations on the expression.
